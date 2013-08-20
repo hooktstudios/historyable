@@ -1,0 +1,2 @@
+Description:
+  The historyable:install generator generates a migration creating a `changes` table in your database.
