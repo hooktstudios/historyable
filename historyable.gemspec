@@ -21,5 +21,5 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.rubyforge_project = '[none]'
 
-  s.add_dependency 'rails', '>= 3.0.0'
+  s.add_dependency 'active_record', '>= 3.0.0'
 end
