@@ -60,3 +60,9 @@ u.first_name_history
         }
       ]
 ```
+
+## Credits
+
+![hooktstudios](http://hooktstudios.com/logo.png)
+
+[historyable](https://rubygems.org/gems/historyable) is maintained and funded by [hooktstudios](http://github.com/hooktstudios).
