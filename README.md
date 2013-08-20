@@ -1,0 +1,62 @@
+# Historyable
+
+Tracks model attributes changes
+
+## Installation
+
+Add this line to your application’s Gemfile:
+
+```ruby
+gem 'historyable'
+```
+
+And then execute
+
+```bash
+$ bundle install
+```
+
+Run the migration to add the `changes` table:
+
+```bash
+$ rails generate historyable:install
+```
+
+## Usage
+
+```ruby
+class User < ActiveRecord::Base
+  has_history :first_name, :last_name
+end
+```
+
+And now you can:
+
+```ruby
+u = User.new
+u.first_name = 'Philippe'
+u.save
+
+u.first_name_history
+# => [
+        {
+          "attribute_value" => "Philippe",
+          "changed_at" => Tue, 20 Aug 2013 20:39:09 UTC +00:00
+        }
+      ]
+
+
+u.first_name = 'Jean-Philippe'
+u.save
+u.first_name_history
+# => [
+        {
+          "attribute_value" => "Jean-Philippe",
+          "changed_at" => Tue, 20 Aug 2013 16:20:00 UTC +00:00
+        },
+        {
+          "attribute_value" => "Philippe",
+          "changed_at" => Tue, 20 Aug 2013 16:20:10 UTC +00:00
+        }
+      ]
+```
