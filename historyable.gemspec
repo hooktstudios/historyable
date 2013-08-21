@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.email         = ['philippe.dionne@hooktstudios.com']
   s.homepage      = "https://github.com/hooktstudios/historyable"
   s.licenses      = ['MIT']
-  s.summary       = "Tracks model attributes changes."
-  s.description   = "Tracks model attributes changes."
+  s.summary       = "A simple and solid concern to track ActiveRecord models attributes changes."
+  s.description   = "A simple and solid concern to track ActiveRecord models attributes changes."
 
   s.cert_chain  = ['certs/pdionne-gem-public_cert.pem']
   s.signing_key = File.expand_path("~/.gem/pdionne-gem-private_key.pem") if $0 =~ /gem\z/
