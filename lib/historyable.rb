@@ -36,10 +36,10 @@ module Historyable
       # Instance methods
       historyable_items.each do |historyable|
 
-        # raw_attribute_history
+        # attribute_history_raw
         #
         # @return [ActiveRecord::Relation]
-        define_method("raw_#{historyable.attribute.to_s}_history") do
+        define_method("#{historyable.attribute.to_s}_history_raw") do
           send(historyable.association_name)
             .where(object_attribute: historyable.attribute)
             .order('created_at DESC')
@@ -54,7 +54,7 @@ module Historyable
           unless instance_variable_get("@#{historyable.attribute.to_s}_history".to_sym)
             array = []
 
-            records = send("raw_#{historyable.attribute}_history")
+            records = send("#{historyable.attribute}_history_raw")
                          .pluck(:object_attribute_value, :created_at)
             records.map do |attribute_value, created_at|
               hash = HashWithIndifferentAccess.new

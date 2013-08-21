@@ -74,7 +74,7 @@ It is not possible to directly query attribute values since model attributes tra
 To overcome this limitation, Historyable also exposes the raw ActiveRecord polymorphic relation.
 
 ```ruby
-u.raw_first_name_history
+u.first_name_history_raw
 # => #<ActiveRecord::Relation [#<Change id: nil, object_attribute_value: "Jean-Philippe", created_at: "2013-08-20 16:20:10">], [#<Change id: nil, object_attribute_value: "Philippe", created_at: "2013-08-20 16:20:00">]>
 ```
 
