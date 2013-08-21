@@ -24,6 +24,8 @@ Thank you!
 
 As simple as running the `rake` command. The default `rake` task is `rake test`.
 
+At this moment, [I am sorry wilson](http://www.youtube.com/watch?v=wO_MYX_Oto0), there is no tests.
+
 ## Syntax
 
 Follow [Ruby Styleguide](https://github.com/styleguide/ruby) by Github and existing code.
