@@ -56,13 +56,24 @@ u.first_name_history
 # => [
         {
           "attribute_value" => "Jean-Philippe",
-          "changed_at" => Tue, 20 Aug 2013 16:20:00 UTC +00:00
+          "changed_at" => Tue, 20 Aug 2013 16:20:10 UTC +00:00
         },
         {
           "attribute_value" => "Philippe",
-          "changed_at" => Tue, 20 Aug 2013 16:20:10 UTC +00:00
+          "changed_at" => Tue, 20 Aug 2013 16:20:00 UTC +00:00
         }
       ]
+```
+
+## Known shortcomings
+
+It is not possible to directly query attribute values since model attributes tracked by Historyable are serialized in the database.
+
+To overcome this limitation, Historyable also exposes the raw ActiveRecord polymorphic relation.
+
+```ruby
+u.raw_first_name_history
+# => #<ActiveRecord::Relation [#<Change id: nil, object_attribute_value: "Jean-Philippe", created_at: "2013-08-20 16:20:10">], [#<Change id: nil, object_attribute_value: "Philippe", created_at: "2013-08-20 16:20:00">]>
 ```
 
 ## Contributing
