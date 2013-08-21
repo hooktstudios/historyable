@@ -30,6 +30,8 @@ $ rails generate historyable:install
 
 ```ruby
 class User < ActiveRecord::Base
+  include Historyable
+
   has_history :first_name, :last_name
 end
 ```
