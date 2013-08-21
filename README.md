@@ -61,6 +61,10 @@ u.first_name_history
       ]
 ```
 
+## Contributing
+
+See [CONTRIBUTING.md](https://github.com/hooktstudios/historyable/blob/master/CONTRIBUTING.md) for more details on contributing and running test.
+
 ## Credits
 
 ![hooktstudios](http://hooktstudios.com/logo.png)
