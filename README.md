@@ -2,6 +2,8 @@
 
 Tracks model attributes changes
 
+[![Gem Version](https://badge.fury.io/rb/historyable.png)](https://rubygems.org/gems/historyable)
+
 ## Installation
 
 Add this line to your application’s Gemfile:
