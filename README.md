@@ -47,7 +47,7 @@ u.first_name_history
 # => [
         {
           "attribute_value" => "Philippe",
-          "changed_at" => Tue, 20 Aug 2013 20:39:09 UTC +00:00
+          "changed_at" => Tue, 20 Aug 2013 16:20:00 UTC +00:00
         }
       ]
 
