@@ -71,6 +71,12 @@ module Historyable
             instance_variable_get("@#{historyable.attribute_name.to_s}_history".to_sym)
           end
         end
+
+        # attribute_history?
+        # @return [Boolean]
+        define_method("#{historyable.attribute_name.to_s}_history?") do
+          send("#{historyable.attribute_name}_history_raw").any?
+        end
       end
 
 
