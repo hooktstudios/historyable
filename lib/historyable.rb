@@ -38,6 +38,10 @@ module Historyable
 
         # attribute_history_raw
         #
+        # @example
+        #
+        #   @user.name_history_raw
+        #
         # @return [ActiveRecord::Relation]
         define_method("#{historyable.attribute_name.to_s}_history_raw") do
           send(historyable.association_name)
@@ -48,6 +52,10 @@ module Historyable
 
 
         # attribute_history
+        #
+        # @example
+        #
+        #   @user.name_history
         #
         # @return [Array]
         define_method("#{historyable.attribute_name.to_s}_history") do
@@ -73,6 +81,11 @@ module Historyable
         end
 
         # attribute_history?
+        #
+        # @example
+        #
+        #   @user.name_history?
+        #
         # @return [Boolean]
         define_method("#{historyable.attribute_name.to_s}_history?") do
           send("#{historyable.attribute_name}_history_raw").any?
