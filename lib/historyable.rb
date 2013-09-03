@@ -1,7 +1,7 @@
-require "historyable/version"
+require 'historyable/version'
 
-require "active_record"
-require "historyable/change"
+require 'active_record'
+require 'historyable/change'
 
 module Historyable
   class Item < Struct.new(:attribute_name, :association_name); end
