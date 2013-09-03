@@ -22,4 +22,6 @@ Gem::Specification.new do |s|
   s.rubyforge_project = '[none]'
 
   s.add_dependency 'activerecord', '>= 3.0.0'
+
+  s.add_development_dependency 'rspec'
 end
