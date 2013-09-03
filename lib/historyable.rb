@@ -60,21 +60,21 @@ module Historyable
         # @return [Array]
         define_method("#{historyable.attribute_name.to_s}_history") do
           unless instance_variable_get("@#{historyable.attribute_name.to_s}_history".to_sym)
-            array = []
+            collection = []
 
             records = send("#{historyable.attribute_name}_history_raw")
                          .pluck(:object_attribute_value, :created_at)
             records.map do |attribute_value, created_at|
-              hash = HashWithIndifferentAccess.new
-              hash[:attribute_value] = attribute_value
-              hash[:changed_at]      = created_at
+              item = HashWithIndifferentAccess.new
+              item[:attribute_value] = attribute_value
+              item[:changed_at]      = created_at
 
-              array << hash
+              collection << item
             end
 
             # Sets attribute_history cache
-            instance_variable_set("@#{historyable.attribute_name.to_s}_history".to_sym, array)
-            array
+            instance_variable_set("@#{historyable.attribute_name.to_s}_history".to_sym, collection)
+            collection
           else
             instance_variable_get("@#{historyable.attribute_name.to_s}_history".to_sym)
           end
