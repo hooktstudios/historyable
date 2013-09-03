@@ -2,6 +2,9 @@
 
 Gemfile.lock
 
+# Ignore test database
+spec/support/test.db
+
 # And because this is Ruby, ignore the following
 #  (source: https://github.com/github/gitignore/blob/master/Ruby.gitignore):
 
