@@ -20,10 +20,11 @@ And then execute
 $ bundle install
 ```
 
-Run the migration to add the `changes` table:
+Generate and run the migration to add the `changes` table:
 
 ```bash
 $ rails generate historyable:install
+$ rake db:migrate
 ```
 
 ## Usage
@@ -71,7 +72,7 @@ u.first_name_history
 
 It is not possible to directly query attribute values since model attributes tracked by Historyable are serialized in the database.
 
-To overcome this limitation, Historyable also exposes the raw ActiveRecord polymorphic relation.
+To overcome this limitation, Historyable also exposes the raw `ActiveRecord` polymorphic relation.
 
 ```ruby
 u.first_name_history_raw
