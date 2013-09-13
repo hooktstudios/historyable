@@ -5,6 +5,7 @@ A simple and solid concern to track ActiveRecord models attributes changes.
 You may want to use [PaperTrail](https://github.com/airblade/paper_trail) or other [ActiveRecord versioning libraries](https://www.ruby-toolbox.com/categories/Active_Record_Versioning) for a more thorough usage.
 
 [![Gem Version](https://badge.fury.io/rb/historyable.png)](https://rubygems.org/gems/historyable)
+[![Code Climate](https://codeclimate.com/github/hooktstudios/historyable.png)](https://codeclimate.com/github/hooktstudios/historyable)
 
 ## Installation
 
