@@ -6,6 +6,7 @@ You may want to use [PaperTrail](https://github.com/airblade/paper_trail) or oth
 
 [![Gem Version](https://badge.fury.io/rb/historyable.png)](https://rubygems.org/gems/historyable)
 [![Code Climate](https://codeclimate.com/github/hooktstudios/historyable.png)](https://codeclimate.com/github/hooktstudios/historyable)
+[![Travis](https://travis-ci.org/hooktstudios/historyable.png?branch=master)](https://travis-ci.org/hooktstudios/historyable)
 
 ## Installation
 
