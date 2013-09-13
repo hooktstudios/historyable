@@ -52,6 +52,39 @@ describe Historyable do
       it { expect(dog.name_history).to be_an_instance_of(Array) }
       it { expect(dog.name_history).to be_empty }
 
+      describe :Caching do
+        let(:double) { double(Cat) }
+
+        describe "creation" do
+          context "with a cold cache" do
+            it "hits the database" do
+              double.should_receive(:connection)
+              cat.name_history
+            end
+          end
+
+          context "with a warm cache" do
+            before { cat.name_history }
+
+            it "doesn't hit the database" do
+              double.should_not_receive(:connection)
+              cat.name_history
+            end
+          end
+        end
+
+        describe "expiration" do
+          before do
+            cat.name_history
+            cat.update_attribute(:name, 'Amadeus')
+          end
+
+          it "hits the database" do
+            double.should_receive(:connection)
+            cat.name_history
+          end
+        end
+      end
     end
 
     describe :name_history_raw do
