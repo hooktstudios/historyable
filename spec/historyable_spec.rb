@@ -53,12 +53,11 @@ describe Historyable do
       it { expect(dog.name_history).to be_empty }
 
       describe :Caching do
-        let(:double) { double(Cat) }
 
         describe "creation" do
           context "with a cold cache" do
             it "hits the database" do
-              double.should_receive(:connection)
+              expect(cat).to receive(:name_history_raw).and_call_original
               cat.name_history
             end
           end
@@ -67,7 +66,7 @@ describe Historyable do
             before { cat.name_history }
 
             it "doesn't hit the database" do
-              double.should_not_receive(:connection)
+              expect(cat).not_to receive(:name_history_raw).and_call_original
               cat.name_history
             end
           end
@@ -80,7 +79,7 @@ describe Historyable do
           end
 
           it "hits the database" do
-            double.should_receive(:connection)
+            expect(cat).to receive(:name_history_raw).and_call_original
             cat.name_history
           end
         end
