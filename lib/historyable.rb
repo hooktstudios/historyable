@@ -4,9 +4,9 @@ require 'active_record'
 require 'historyable/change'
 
 module Historyable
-  Item = Struct.new(:attribute_name, :association_name)
-
   extend ActiveSupport::Concern
+
+  Item = Struct.new(:attribute_name, :association_name)
 
   included do
     class_attribute :historyable_items, instance_writer: false
@@ -21,7 +21,7 @@ module Historyable
         attribute_name   = attribute.to_sym
         association_name = attribute.to_s.insert(-1, '_changes').to_sym
 
-        Historyable::Item.new(attribute_name, association_name)
+        Item.new(attribute_name, association_name)
       end
 
       # Associations
@@ -75,7 +75,7 @@ module Historyable
           collection = []
 
           records = send("#{historyable.attribute_name}_history_raw")
-          records.map do |record|
+          records.each do |record|
             item = HashWithIndifferentAccess.new
             item[:attribute_value] = record.object_attribute_value
             item[:changed_at]      = record.created_at
