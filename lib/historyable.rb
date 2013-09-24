@@ -58,7 +58,7 @@ module Historyable
         send(historyable.association_name)
           .where(object_attribute: historyable.attribute_name)
           .order('created_at DESC')
-          .select(:object_attribute_value, :created_at)
+          .select([:object_attribute_value, :created_at])
       end
     end
 
@@ -75,11 +75,10 @@ module Historyable
           collection = []
 
           records = send("#{historyable.attribute_name}_history_raw")
-                       .pluck(:object_attribute_value, :created_at)
-          records.map do |attribute_value, created_at|
+          records.map do |record|
             item = HashWithIndifferentAccess.new
-            item[:attribute_value] = attribute_value
-            item[:changed_at]      = created_at
+            item[:attribute_value] = record.object_attribute_value
+            item[:changed_at]      = record.created_at
 
             collection << item
           end
