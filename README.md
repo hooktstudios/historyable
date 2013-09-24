@@ -30,8 +30,20 @@ $ rake db:migrate
 ```
 
 ## Usage
+```ruby
+# db/migrate/create_users.rb
+class CreateUsers < ActiveRecord::Migration
+  def change
+    create_table :users do |t|
+      t.string :first_name
+      t.string :last_name
+    end
+  end
+end
+```
 
 ```ruby
+# app/models/user.rb
 class User < ActiveRecord::Base
   include Historyable
 
