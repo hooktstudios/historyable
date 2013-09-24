@@ -32,69 +32,78 @@ module Historyable
                  dependent:  :destroy
       end
 
-
       # Instance methods
       historyable_items.each do |historyable|
-
-        # attribute_history_raw
-        #
-        # @example
-        #
-        #   @user.name_history_raw
-        #
-        # @return [ActiveRecord::Relation]
-        define_method("#{historyable.attribute_name.to_s}_history_raw") do
-          send(historyable.association_name)
-            .where(object_attribute: historyable.attribute_name)
-            .order('created_at DESC')
-            .select(:object_attribute_value, :created_at)
-        end
-
-
-        # attribute_history
-        #
-        # @example
-        #
-        #   @user.name_history
-        #
-        # @return [Array]
-        define_method("#{historyable.attribute_name.to_s}_history") do
-          unless instance_variable_get("@#{historyable.attribute_name.to_s}_history".to_sym)
-            collection = []
-
-            records = send("#{historyable.attribute_name}_history_raw")
-                         .pluck(:object_attribute_value, :created_at)
-            records.map do |attribute_value, created_at|
-              item = HashWithIndifferentAccess.new
-              item[:attribute_value] = attribute_value
-              item[:changed_at]      = created_at
-
-              collection << item
-            end
-
-            # Sets attribute_history cache
-            instance_variable_set("@#{historyable.attribute_name.to_s}_history".to_sym, collection)
-            collection
-          else
-            instance_variable_get("@#{historyable.attribute_name.to_s}_history".to_sym)
-          end
-        end
-
-        # attribute_history?
-        #
-        # @example
-        #
-        #   @user.name_history?
-        #
-        # @return [Boolean]
-        define_method("#{historyable.attribute_name.to_s}_history?") do
-          send("#{historyable.attribute_name}_history_raw").any?
-        end
+        define_historyable_attribute_history_raw(historyable)
+        define_historyable_attribute_history(historyable)
+        define_historyable_attribute_history?(historyable)
       end
-
 
       # Callbacks
       around_save :save_changes
+    end
+
+
+    private
+
+    # attribute_history_raw
+    #
+    # @example
+    #
+    #   @user.name_history_raw
+    #
+    # @return [ActiveRecord::Relation]
+    def define_historyable_attribute_history_raw(historyable)
+      define_method("#{historyable.attribute_name.to_s}_history_raw") do
+        send(historyable.association_name)
+          .where(object_attribute: historyable.attribute_name)
+          .order('created_at DESC')
+          .select(:object_attribute_value, :created_at)
+      end
+    end
+
+    # attribute_history
+    #
+    # @example
+    #
+    #   @user.name_history
+    #
+    # @return [Array]
+    def define_historyable_attribute_history(historyable)
+      define_method("#{historyable.attribute_name.to_s}_history") do
+        unless instance_variable_get("@#{historyable.attribute_name.to_s}_history".to_sym)
+          collection = []
+
+          records = send("#{historyable.attribute_name}_history_raw")
+                       .pluck(:object_attribute_value, :created_at)
+          records.map do |attribute_value, created_at|
+            item = HashWithIndifferentAccess.new
+            item[:attribute_value] = attribute_value
+            item[:changed_at]      = created_at
+
+            collection << item
+          end
+
+          # Sets attribute_history cache
+          instance_variable_set("@#{historyable.attribute_name.to_s}_history".to_sym, collection)
+          collection
+        else
+          instance_variable_get("@#{historyable.attribute_name.to_s}_history".to_sym)
+        end
+      end
+    end
+
+    # attribute_history?
+    #
+    # @example
+    #
+    #   @user.name_history?
+    #
+    # @return [Boolean]
+    def define_historyable_attribute_history?(historyable)
+      define_method("#{historyable.attribute_name.to_s}_history?") do
+        send("#{historyable.attribute_name}_history_raw").any?
+      end
     end
   end
 
