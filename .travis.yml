@@ -1,9 +1,10 @@
 language: ruby
 
 rvm:
+  - 2.1.0
   - 2.0.0
   - 1.9.3
 
-gemfile:
-  - gemfiles/Gemfile.activerecord-4.0
-  - gemfiles/Gemfile.activerecord-3.2.x
+env:
+  - ACTIVE_RECORD=4.0
+  - ACTIVE_RECORD=3.2
