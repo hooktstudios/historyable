@@ -11,3 +11,7 @@ rvm:
 env:
   - ACTIVE_RECORD=4.0
   - ACTIVE_RECORD=3.2
+
+matrix:
+  allow_failures:
+    - rvm: 2.1.0
