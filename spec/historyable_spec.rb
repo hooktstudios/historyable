@@ -46,11 +46,11 @@ describe Historyable do
     end
 
     describe :name_history do
-      it { expect(cat.name_history).to be_an_instance_of(Array) }
+      it { expect(cat.name_history).to       be_an_instance_of(Array) }
       it { expect(cat.name_history.first).to be_a_kind_of(Hash) }
       it { expect(cat.name_history.first[:attribute_value]).to eq('Garfield') }
-      it { expect(dog.name_history).to be_an_instance_of(Array) }
-      it { expect(dog.name_history).to be_empty }
+      it { expect(dog.name_history).to       be_an_instance_of(Array) }
+      it { expect(dog.name_history).to       be_empty }
 
       describe :Caching do
 
@@ -87,17 +87,16 @@ describe Historyable do
     end
 
     describe :name_history_raw do
-      it { expect(cat.name_history_raw).to be_a_kind_of(ActiveRecord::Relation) }
+      it { expect(cat.name_history_raw).to       be_a_kind_of(ActiveRecord::Relation) }
       it { expect(cat.name_history_raw.first).to be_an_instance_of(Change) }
       it { expect(cat.name_history_raw.first[:object_attribute_value]).to eq('Garfield') }
     end
   end
 
   describe :Callbacks do
-
     describe :save_changes do
       it { expect{ cat.update_attribute(:name, 'Garfield') }.to change { cat.name_history.size }.from(0).to(1) }
-      it { expect{ cat.update_attribute(:age, 6) }.to_not change { cat.name_history.size } }
+      it { expect{ cat.update_attribute(:age, 6) }.to_not       change { cat.name_history.size } }
     end
   end
 end
