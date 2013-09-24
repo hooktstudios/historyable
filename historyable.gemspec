@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.cert_chain  = ['certs/pdionne-gem-public_cert.pem']
   s.signing_key = File.expand_path("~/.gem/pdionne-gem-private_key.pem") if $0 =~ /gem\z/
 
-  s.files         = `git ls-files app lib`.split("\n")
+  s.files         = `git ls-files lib`.split("\n")
   s.platform      = Gem::Platform::RUBY
   s.require_paths = ['lib']
   s.test_files    = s.files.grep(%r{^(spec)/})
