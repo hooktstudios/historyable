@@ -8,7 +8,7 @@ We love to work with people around the globe and make earth a better place for m
 
 Please follow theses simples steps to contribute to this project :
 
-1. Run the tests before & after doing anything.
+1. Run the specs before & after doing anything.
 
 2. Add specs regarding your code modification.
 
@@ -20,12 +20,10 @@ Please follow theses simples steps to contribute to this project :
 
 Thank you!
 
-## Running the tests
+## Running specs
 
-As simple as running the `rake` command. The default `rake` task is `rake test`.
-
-At this moment, [I am sorry wilson](http://www.youtube.com/watch?v=wO_MYX_Oto0), there is no tests.
+Either `rake test` or 'rspec' command.
 
 ## Syntax
 
-Follow [Ruby Styleguide](https://github.com/styleguide/ruby) by Github and existing code.
+Please follow [Ruby Styleguide](https://github.com/styleguide/ruby) by Github and existing code.
