@@ -9,7 +9,7 @@ module Historyable
   Item = Struct.new(:attribute_name, :association_name)
 
   included do
-    class_attribute :historyable_items, instance_writer: false
+    class_attribute :historyable_items, :historyable_cache, instance_writer: false
   end
 
 
@@ -17,6 +17,7 @@ module Historyable
 
     # @param attributes [Array, Symbol]
     def has_history(*attributes)
+      self.historyable_cache = ActiveSupport::Cache::MemoryStore.new
       self.historyable_items = attributes.map do |attribute|
         attribute_name   = attribute.to_sym
         association_name = attribute.to_s.insert(-1, '_changes').to_sym
@@ -71,7 +72,7 @@ module Historyable
     # @return [Array]
     def define_historyable_attribute_history(historyable)
       define_method("#{historyable.attribute_name.to_s}_history") do
-        unless instance_variable_get("@#{historyable.attribute_name.to_s}_history".to_sym)
+        historyable_cache.fetch(historyable.attribute_name) do
           collection = []
 
           records = send("#{historyable.attribute_name}_history_raw")
@@ -83,11 +84,7 @@ module Historyable
             collection << item
           end
 
-          # Sets attribute_history cache
-          instance_variable_set("@#{historyable.attribute_name.to_s}_history".to_sym, collection)
           collection
-        else
-          instance_variable_get("@#{historyable.attribute_name.to_s}_history".to_sym)
         end
       end
     end
@@ -121,7 +118,7 @@ module Historyable
       send(historyable.association_name).create(object_attribute: historyable.attribute_name,
                                                 object_attribute_value: send(historyable.attribute_name))
       # Expires attribute_history cache
-      instance_variable_set("@#{historyable.attribute_name.to_s}_history".to_sym, nil)
+      historyable_cache.delete(historyable.attribute_name)
     end
 
     true
