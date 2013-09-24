@@ -4,7 +4,7 @@ require 'active_record'
 require 'historyable/change'
 
 module Historyable
-  class Item < Struct.new(:attribute_name, :association_name); end
+  Item = Struct.new(:attribute_name, :association_name)
 
   extend ActiveSupport::Concern
 
