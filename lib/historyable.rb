@@ -73,18 +73,13 @@ module Historyable
     def define_historyable_attribute_history(historyable)
       define_method("#{historyable.attribute_name.to_s}_history") do
         historyable_cache.fetch(historyable.attribute_name) do
-          collection = []
-
-          records = send("#{historyable.attribute_name}_history_raw")
-          records.each do |record|
+          send("#{historyable.attribute_name}_history_raw").inject([]) do |memo, record|
             item = HashWithIndifferentAccess.new
             item[:attribute_value] = record.object_attribute_value
             item[:changed_at]      = record.created_at
 
-            collection << item
+            memo << item
           end
-
-          collection
         end
       end
     end
