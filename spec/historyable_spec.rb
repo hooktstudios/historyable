@@ -88,7 +88,7 @@ describe Historyable do
 
     describe :name_history_raw do
       it { expect(cat.name_history_raw).to       be_a_kind_of(ActiveRecord::Relation) }
-      it { expect(cat.name_history_raw.first).to be_an_instance_of(Change) }
+      it { expect(cat.name_history_raw.first).to be_an_instance_of(Historyable::Change) }
       it { expect(cat.name_history_raw.first[:object_attribute_value]).to eq('Garfield') }
     end
   end
