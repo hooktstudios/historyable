@@ -25,16 +25,11 @@ module Historyable
         Item.new(attribute_name, association_name)
       end
 
-      # Associations
       historyable_items.each do |historyable|
-        has_many historyable.association_name,
-                 as:         :item,
-                 class_name: '::Change',
-                 dependent:  :destroy
-      end
+        # Associations
+        define_historyable_association(historyable)
 
-      # Instance methods
-      historyable_items.each do |historyable|
+        # Instance methods
         define_historyable_attribute_history_raw(historyable)
         define_historyable_attribute_history(historyable)
         define_historyable_attribute_history?(historyable)
@@ -46,6 +41,13 @@ module Historyable
 
 
     private
+
+    def define_historyable_association(historyable)
+      has_many historyable.association_name,
+               as:         :item,
+               class_name: Change,
+               dependent:  :destroy
+    end
 
     # attribute_history_raw
     #
