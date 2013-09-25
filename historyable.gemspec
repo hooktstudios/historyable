@@ -22,5 +22,4 @@ Gem::Specification.new do |s|
   s.test_files    = s.files.grep(%r{^(spec)/})
 
   s.add_dependency 'activerecord', '>= 3.2.14'
-  s.add_dependency 'activesupport', '>= 3.2.14'
 end
