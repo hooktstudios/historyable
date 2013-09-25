@@ -20,7 +20,7 @@ module Historyable
       self.historyable_cache = ActiveSupport::Cache::MemoryStore.new
       self.historyable_items = attributes.map do |attribute|
         attribute_name   = attribute.to_sym
-        association_name = attribute.to_s.insert(-1, '_changes').to_sym
+        association_name = "#{attribute}_changes".to_sym
 
         Item.new(attribute_name, association_name)
       end
