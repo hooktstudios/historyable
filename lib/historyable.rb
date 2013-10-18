@@ -8,6 +8,8 @@ module Historyable
 
   Item = Struct.new(:attribute_name, :association_name)
 
+  Entry = Struct.new(:attribute_value, :changed_at)
+
   included do
     class_attribute :historyable_items, instance_writer: false
     attr_accessor   :historyable_cache
@@ -76,11 +78,11 @@ module Historyable
       define_method("#{historyable.attribute_name.to_s}_history") do
         self.historyable_cache ||= Hash.new
         historyable_cache[historyable.attribute_name] ||= send("#{historyable.attribute_name}_history_raw").inject([]) do |memo, record|
-          item = HashWithIndifferentAccess.new
-          item[:attribute_value] = record.object_attribute_value
-          item[:changed_at]      = record.created_at
+          entry                 = Entry.new
+          entry.attribute_value = record.object_attribute_value
+          entry.changed_at      = record.created_at
 
-          memo << item
+          memo << entry
         end
       end
     end

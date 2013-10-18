@@ -47,8 +47,8 @@ describe Historyable do
 
     describe :name_history do
       it { expect(cat.name_history).to       be_an_instance_of(Array) }
-      it { expect(cat.name_history.first).to be_a_kind_of(Hash) }
-      it { expect(cat.name_history.first[:attribute_value]).to eq('Garfield') }
+      it { expect(cat.name_history.first).to be_a_kind_of(Historyable::Entry) }
+      it { expect(cat.name_history.first.attribute_value).to eq('Garfield') }
       it { expect(dog.name_history).to       be_an_instance_of(Array) }
       it { expect(dog.name_history).to       be_empty }
 
