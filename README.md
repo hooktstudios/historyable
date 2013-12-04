@@ -59,7 +59,7 @@ u = User.new
 u.first_name = 'Philippe'
 u.save
 
-u.first_name_history
+u.history_of(:first_name)
 # => [
         {
           "attribute_value" => "Philippe",
@@ -70,7 +70,7 @@ u.first_name_history
 
 u.first_name = 'Jean-Philippe'
 u.save
-u.first_name_history
+u.history_of(:first_name)
 # => [
         {
           "attribute_value" => "Jean-Philippe",
@@ -90,7 +90,7 @@ It is not possible to directly query attribute values since model attributes tra
 To overcome this limitation, Historyable also exposes the raw `ActiveRecord` polymorphic relation.
 
 ```ruby
-u.first_name_history_raw
+u.raw_history_of(:first_name)
 # => #<ActiveRecord::Relation [#<Change id: nil, object_attribute_value: "Jean-Philippe", created_at: "2013-08-20 16:20:10">], [#<Change id: nil, object_attribute_value: "Philippe", created_at: "2013-08-20 16:20:00">]>
 ```
 

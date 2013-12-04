@@ -32,6 +32,9 @@ module Historyable
         define_historyable_association(historyable)
 
         # Instance methods
+        define_historyable_history_raw(historyable)
+        define_historyable_history # Should be defined once only
+
         define_historyable_attribute_history_raw(historyable)
         define_historyable_attribute_history(historyable)
         define_historyable_attribute_history?(historyable)
@@ -51,6 +54,42 @@ module Historyable
                dependent:  :destroy
     end
 
+    # raw_history_of
+    #
+    # @example
+    #
+    #   @user.raw_history_of(:name)
+    #
+    # @return [ActiveRecord::Relation]
+    def define_historyable_history_raw(historyable)
+      define_method("raw_history_of") do |attribute_name|
+        send(historyable.association_name)
+          .where(object_attribute: attribute_name)
+          .order('created_at DESC')
+          .select([:object_attribute_value, :created_at])
+      end
+    end
+
+    # history_of
+    #
+    # @example
+    #
+    #   @user.history_of(:name)
+    #
+    # @return [Array]
+    def define_historyable_history
+      define_method("history_of") do |attribute_name|
+        self.historyable_cache ||= Hash.new
+        historyable_cache[attribute_name] ||= send("raw_history_of", attribute_name).inject([]) do |memo, record|
+          entry                 = Entry.new
+          entry.attribute_value = record.object_attribute_value
+          entry.changed_at      = record.created_at
+
+          memo << entry
+        end
+      end
+    end
+
     # attribute_history_raw
     #
     # @example
@@ -60,10 +99,7 @@ module Historyable
     # @return [ActiveRecord::Relation]
     def define_historyable_attribute_history_raw(historyable)
       define_method("#{historyable.attribute_name.to_s}_history_raw") do
-        send(historyable.association_name)
-          .where(object_attribute: historyable.attribute_name)
-          .order('created_at DESC')
-          .select([:object_attribute_value, :created_at])
+        send("raw_history_of", historyable.attribute_name)
       end
     end
 
@@ -76,14 +112,7 @@ module Historyable
     # @return [Array]
     def define_historyable_attribute_history(historyable)
       define_method("#{historyable.attribute_name.to_s}_history") do
-        self.historyable_cache ||= Hash.new
-        historyable_cache[historyable.attribute_name] ||= send("#{historyable.attribute_name}_history_raw").inject([]) do |memo, record|
-          entry                 = Entry.new
-          entry.attribute_value = record.object_attribute_value
-          entry.changed_at      = record.created_at
-
-          memo << entry
-        end
+        send("history_of", historyable.attribute_name)
       end
     end
 

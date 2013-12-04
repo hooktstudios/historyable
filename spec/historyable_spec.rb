@@ -45,6 +45,47 @@ describe Historyable do
       it { expect(dog.name_history?).to be_false }
     end
 
+    describe :history_of do
+      it { expect(cat.history_of(:name)).to       be_an_instance_of(Array) }
+      it { expect(cat.history_of(:name).first).to be_a_kind_of(Historyable::Entry) }
+      it { expect(cat.history_of(:name).first.attribute_value).to eq('Garfield') }
+      it { expect(dog.history_of(:name)).to       be_an_instance_of(Array) }
+      it { expect(dog.history_of(:name)).to       be_empty }
+
+      describe :Caching do
+
+        describe "creation" do
+          context "with a cold cache" do
+            it "hits the database" do
+              expect(cat).to receive(:raw_history_of).and_call_original
+              cat.history_of(:name)
+            end
+          end
+
+          context "with a warm cache" do
+            before { cat.history_of(:name) }
+
+            it "doesn't hit the database" do
+              expect(cat).not_to receive(:raw_history_of).and_call_original
+              cat.history_of(:name)
+            end
+          end
+        end
+
+        describe "expiration" do
+          before do
+            cat.history_of(:name)
+            cat.update_attribute(:name, 'Amadeus')
+          end
+
+          it "hits the database" do
+            expect(cat).to receive(:raw_history_of).and_call_original
+            cat.history_of(:name)
+          end
+        end
+      end
+    end
+
     describe :name_history do
       it { expect(cat.name_history).to       be_an_instance_of(Array) }
       it { expect(cat.name_history.first).to be_a_kind_of(Historyable::Entry) }
@@ -57,7 +98,7 @@ describe Historyable do
         describe "creation" do
           context "with a cold cache" do
             it "hits the database" do
-              expect(cat).to receive(:name_history_raw).and_call_original
+              expect(cat).to receive(:raw_history_of).and_call_original
               cat.name_history
             end
           end
@@ -66,7 +107,7 @@ describe Historyable do
             before { cat.name_history }
 
             it "doesn't hit the database" do
-              expect(cat).not_to receive(:name_history_raw).and_call_original
+              expect(cat).not_to receive(:raw_history_of).and_call_original
               cat.name_history
             end
           end
@@ -79,11 +120,17 @@ describe Historyable do
           end
 
           it "hits the database" do
-            expect(cat).to receive(:name_history_raw).and_call_original
+            expect(cat).to receive(:raw_history_of).and_call_original
             cat.name_history
           end
         end
       end
+    end
+
+    describe :raw_history_of do
+      it { expect(cat.raw_history_of(:name)).to be_a_kind_of(ActiveRecord::Relation) }
+      it { expect(cat.raw_history_of(:name).first).to be_an_instance_of(Historyable::Change) }
+      it { expect(cat.raw_history_of(:name).first[:object_attribute_value]).to eq('Garfield') }
     end
 
     describe :name_history_raw do
